@@ -1,0 +1,8 @@
+package com.dishdash.order.domain.model;
+
+public enum OrderStatus {
+  PENDING, // PEDIDO CRIADO, AGUARDANDO PROCESSAMENTO
+  CONFIRMED, // ESTOQUE RESERVADO
+  PAID, // PAGAMENTO CONFIRMADO
+  CANCELLED, // CANCELADO EM QUALQUER ETAPA
+}
