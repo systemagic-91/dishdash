@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: order-service
+#  data:
+#    mongodb:
+#      uri: ${MONGODB_URI:mongodb://localhost:27017/pedidoflow}
+      # A sintaxe ${VAR:default} usa variável de ambiente se existir,
+      # ou o valor padrão para rodar local. Boa prática desde o início
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: always
