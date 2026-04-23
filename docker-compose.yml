@@ -1,15 +1,95 @@
-version: "3.8"
+networks:
+  dishdash-network:
+    driver: bridge
+    # Rede interna compartilhada por todos os serviços
+    # "bridge" é o driver padrão — cria uma rede isolada na sua máquina
 
 services:
   mongodb:
     image: mongo:7.0
     container_name: dishdash-mongo
+    networks:
+      - dishdash-network
     ports:
-      - "27017:27017"
+      - "27017:27017" # host:container -> expoe para minha maquina acessar
     volumes:
-      - mongo_data:/data/db
+      - mongo_data:/data/db # persiste dados entre restarts do container
     environment:
       MONGO_INITDB_DATABASE: dishdash
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s # testa a cada 10 segundos
+      timeout: 5s # falha se demorar mais de 5 segundos
+      retries: 5 # tenta 5 vezes antes de marcar como unhealthy
+      start_period: 20s # aguarda 20 segundos antes de começar a testar
+
+  order-service:
+    build:
+      context: . # contexto de build é a raiz do projeto
+      dockerfile: order-service/Dockerfile
+    container_name: dishdash-orders
+    networks:
+      - dishdash-network
+    ports:
+      - "8080:8080"
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/dishdash
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O- http://localhost:8080/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s  # tempo para spring inicializar
+
+  inventory-service:
+    build:
+      context: .
+      dockerfile: inventory-service/Dockerfile
+    container_name: dishdash-inventory
+    networks:
+      - dishdash-network
+    ports:
+      - "8081:8081"
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/dishdash_inventory
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O- http://localhost:8081/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: payment-service/Dockerfile
+      # o contexto de build é a raiz por que o context define quais arquivos o docker
+      # consegue enxergar durante o build. Como o Dockerfile cobia o gradlew e o gradle/
+      # que estao na raiz do monorepo, o contexto precisa ser a raiz e nao a pasta do servico
+      # Se colocassemos context: ./order-service, o Docker nao encontraria o gradlew e o
+      # build quebraria
+    container_name: dishdash-payment
+    networks:
+      - dishdash-network
+    ports:
+      - "8082:8082"
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/dishdash-payment
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O- http://localhost:8082/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 
 volumes:
   mongo_data:
