@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: payment-service
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/dishdash_payment}
+    # Terceiro banco separado — cada serviço é dono dos seus dados
+
+server:
+  port: 8082
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    br.com.pedidoflow: DEBUG

@@ -2,5 +2,6 @@ rootProject.name = "dishdash"
 
 include (
     "order-service",
-    "inventory-service"
+    "inventory-service",
+    "payment-service",
 )
