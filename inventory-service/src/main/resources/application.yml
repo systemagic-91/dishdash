@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: inventory-service
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/dishdash_inventory}
+      # Banco separado do order-service!
+      # Cada microserviço tem seu próprio banco — isso é Database per Service pattern
+      # Se compartilhassem o banco, estariam acoplados no nível de dados
+
+server:
+  port: 8081  # porta diferente do order-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    br.com.dishdash: DEBUG
