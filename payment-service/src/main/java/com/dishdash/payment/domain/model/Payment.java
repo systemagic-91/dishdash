@@ -50,9 +50,9 @@ public class Payment {
   }
 
   public static Payment reconstitute(String id, String orderId, String customerId, BigDecimal amount,
-      LocalDateTime updatedAt, LocalDateTime createdAt, PaymentStatus status, String rejectionReason) {
+      LocalDateTime createdAt, LocalDateTime updatedAt, PaymentStatus status, String rejectionReason) {
 
-    return new Payment(id,  orderId, customerId, amount, updatedAt, createdAt, status, rejectionReason);
+    return new Payment(id,  orderId, customerId, amount, createdAt, updatedAt, status, rejectionReason);
   }
 
   // valida regras de negocio para aprovar pagamento
