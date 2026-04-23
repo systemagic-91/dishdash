@@ -31,7 +31,7 @@ public class Payment {
     this.rejectionReason = rejectionReason;
   }
 
-  private static Payment create(String orderId, String customerId, BigDecimal amount) {
+  public static Payment create(String orderId, String customerId, BigDecimal amount) {
 
     if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
       throw new IllegalArgumentException("Valor do pagamento deve ser maior que zero");
@@ -49,7 +49,7 @@ public class Payment {
     );
   }
 
-  private static Payment reconstitute(String id, String orderId, String customerId, BigDecimal amount,
+  public static Payment reconstitute(String id, String orderId, String customerId, BigDecimal amount,
       LocalDateTime updatedAt, LocalDateTime createdAt, PaymentStatus status, String rejectionReason) {
 
     return new Payment(id,  orderId, customerId, amount, updatedAt, createdAt, status, rejectionReason);
