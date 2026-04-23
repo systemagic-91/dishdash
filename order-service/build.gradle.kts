@@ -13,8 +13,8 @@ dependencies {
     // Validação de DTOs
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
-    // Actuator — health check, métricas (já deixamos pronto para Fase 5)
-    // implementation("org.springframework.boot:spring-boot-starter-actuator")
+    // Actuator — health check, métricas
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     // Lombok — reduz boilerplate (getters, builders, etc.)
     compileOnly("org.projectlombok:lombok")
