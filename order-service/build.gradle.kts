@@ -8,7 +8,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     // MongoDB reativo — R2DBC não existe pro Mongo, usamos o driver reativo nativo
-    // implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
 
     // Validação de DTOs
     implementation("org.springframework.boot:spring-boot-starter-validation")
