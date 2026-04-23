@@ -72,7 +72,7 @@ public class Order {
 
   public void confirm() {
 
-    if (this.status == OrderStatus.PENDING)
+    if (this.status != OrderStatus.PENDING)
       throw new IllegalStateException("Apenas pedidos PENDING podem ser confirmados");
 
     this.status = OrderStatus.CONFIRMED;
