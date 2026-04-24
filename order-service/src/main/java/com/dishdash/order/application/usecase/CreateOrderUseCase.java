@@ -19,18 +19,35 @@ public class CreateOrderUseCase {
 
   public Mono<OrderResponse> execute(CreateOrderRequest request) {
 
-    List<OrderItem> items = request.items().stream()
-        .map(item -> OrderItem.of(
-            item.productId(),
-            item.productName(),
-            item.quantity(),
-            item.unitPrice()
-        ))
-        .toList();
+    // Usamos Mono.defer para garantir execução lazy (sob demanda).
+    // Tudo dentro desse bloco só será executado no momento da inscrição (subscribe),
+    // ou seja, quando o fluxo reativo realmente rodar.
+    //
+    // Isso é importante porque Order.create() pode lançar exceção (ex: lista vazia).
+    // Sem o defer, essa exceção seria lançada imediatamente (fora do Mono),
+    // quebrando o fluxo reativo e impedindo que o StepVerifier (ou o consumidor)
+    // capture o erro corretamente.
+    //
+    // Com o defer, qualquer exceção passa a acontecer dentro do Mono,
+    // sendo propagada como sinal de erro reativo (onError).
+    return Mono.defer(() -> {
 
-    Order order = Order.create(new CustomerId(request.customerId()), items);
+      List<OrderItem> items = request.items().stream()
+          .map(item -> OrderItem.of(
+              item.productId(),
+              item.productName(),
+              item.quantity(),
+              item.unitPrice()
+          ))
+          .toList();
 
-    return orderRepository.save(order)
-        .map(OrderResponse::from);
+      Order order = Order.create(
+          new CustomerId(request.customerId()),
+          items
+      );
+
+      return orderRepository.save(order)
+          .map(OrderResponse::from);
+    });
   }
 }
