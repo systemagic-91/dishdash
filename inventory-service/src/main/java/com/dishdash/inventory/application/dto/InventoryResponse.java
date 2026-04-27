@@ -5,7 +5,7 @@ import com.dishdash.inventory.domain.model.InventoryItem;
 public record InventoryResponse(
 
     String id,
-    String produtcId,
+    String productId,
     String productName,
     int availableQuantity
 ) {

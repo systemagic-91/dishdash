@@ -23,6 +23,7 @@ public class InventoryExceptionHandler {
     problem.setTitle("Produto não encontrado");
     problem.setType(URI.create("/errors/product-not-found"));
     problem.setProperty("timestamp", LocalDateTime.now());
+    problem.setProperty("message", ex.getMessage());
 
     return problem;
   }
@@ -37,6 +38,7 @@ public class InventoryExceptionHandler {
     problem.setTitle("Estoque insuficiente");
     problem.setType(URI.create("/errors/insufficient-stock"));
     problem.setProperty("timestamp", LocalDateTime.now());
+    problem.setProperty("message", ex.getMessage());
 
     return problem;
   }
@@ -50,6 +52,7 @@ public class InventoryExceptionHandler {
     problem.setTitle("Argumento inválido");
     problem.setType(URI.create("/errors/invalid-argument"));
     problem.setProperty("timestamp", LocalDateTime.now());
+    problem.setProperty("message", ex.getMessage());
 
     return problem;
   }
@@ -70,6 +73,7 @@ public class InventoryExceptionHandler {
     problem.setType(URI.create("/errors/validation"));
     problem.setProperty("timestamp", LocalDateTime.now());
     problem.setProperty("fields", fields);
+    problem.setProperty("message", ex.getMessage());
 
     return problem;
   }
