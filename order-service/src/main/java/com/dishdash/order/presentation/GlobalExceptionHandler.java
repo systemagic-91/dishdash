@@ -18,8 +18,6 @@ public class GlobalExceptionHandler {
   // ProblemDetail é o padrão RFC 9457 um formato de erro HTTP padronizado pela indústria.
   // O Spring Boot 3 já suporta nativamente. Usar padrões abertos é sempre
   // preferível a reinventar a roda.
-
-  //
   @ExceptionHandler(OrderNotFoundException.class)
   public ProblemDetail handleOrderNotFoundException(OrderNotFoundException ex) {
 
@@ -29,6 +27,7 @@ public class GlobalExceptionHandler {
     problem.setTitle("Order Not Found");
     problem.setType(URI.create("/errors/order-not-found"));
     problem.setProperty("timestamp", LocalDateTime.now());
+    problem.setProperty("message", ex.getMessage());
 
     return problem;
   }
@@ -42,6 +41,7 @@ public class GlobalExceptionHandler {
     problem.setTitle("Operação inválida");
     problem.setType(URI.create("/errors/invalid-operation"));
     problem.setProperty("timestamp", LocalDateTime.now());
+    problem.setProperty("message", ex.getMessage());
 
     return problem;
   }
@@ -55,6 +55,7 @@ public class GlobalExceptionHandler {
     problem.setTitle("Argumento inválido");
     problem.setType(URI.create("/errors/invalid-argument"));
     problem.setProperty("timestamp", LocalDateTime.now());
+    problem.setProperty("message", ex.getMessage());
 
     return problem;
   }
@@ -75,6 +76,7 @@ public class GlobalExceptionHandler {
     problem.setType(URI.create("/errors/validation"));
     problem.setProperty("timestamp", LocalDateTime.now());
     problem.setProperty("fields", fields);
+    problem.setProperty("message", ex.getMessage());
 
     return problem;
   }

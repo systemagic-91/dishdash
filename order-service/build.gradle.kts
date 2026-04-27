@@ -21,6 +21,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
 
     // Testes
+    testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test") // para testar Mono/Flux
 
