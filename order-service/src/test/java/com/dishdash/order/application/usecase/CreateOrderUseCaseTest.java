@@ -78,6 +78,8 @@ class CreateOrderUseCaseTest {
       StepVerifier.create(createOrderUseCase.execute(request))
           .expectErrorMatches(this::isMongoDBAvailable)
           .verify();
+
+      verify(orderRepository, times(1)).save(any(Order.class));
     }
 
     @Test

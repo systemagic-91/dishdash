@@ -11,6 +11,28 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
+    testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+
+    // Adiciona o Mockito como Java Agent explicitamente durante a execução dos testes.
+    //
+    // Nas versões mais novas do JDK, o Mockito não pode mais se auto-anexar
+    // dinamicamente (self-attaching) para habilitar o inline mock maker.
+    // Isso gera warnings e será bloqueado no futuro.
+    //
+    // Ao configurar o -javaagent manualmente, garantimos que:
+    // - os mocks (inclusive de classes finais) continuem funcionando
+    // - eliminamos os warnings do ByteBuddy/JDK
+    // - o build fique compatível com futuras versões do Java
+    //
+    // Aqui buscamos o jar do Mockito no classpath de teste e passamos como agent.
+    jvmArgs(
+        "-javaagent:${configurations.testRuntimeClasspath.get()
+            .find { it.name.contains("mockito-core") }?.absolutePath}"
+    )
 }

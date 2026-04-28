@@ -22,6 +22,7 @@ public class PaymentExceptionHandler {
     problem.setTitle("Pagamento não encontrado");
     problem.setType(URI.create("/errors/payment-not-found"));
     problem.setProperty("timestamp", LocalDateTime.now());
+    problem.setProperty("message", ex.getMessage());
 
     return problem;
   }
@@ -35,6 +36,7 @@ public class PaymentExceptionHandler {
     problem.setTitle("Operação inválida");
     problem.setType(URI.create("/errors/invalid-operation"));
     problem.setProperty("timestamp", LocalDateTime.now());
+    problem.setProperty("message", ex.getMessage());
 
     return problem;
   }
@@ -55,6 +57,7 @@ public class PaymentExceptionHandler {
     problem.setType(URI.create("/errors/validation"));
     problem.setProperty("timestamp", LocalDateTime.now());
     problem.setProperty("fields", fields);
+    problem.setProperty("message", ex.getMessage());
 
     return problem;
   }
