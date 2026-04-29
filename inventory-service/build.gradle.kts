@@ -16,6 +16,12 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
+
+    // Kafka — gerenciado pelo BOM do Spring Boot 4
+    implementation("org.springframework.boot:spring-boot-starter-kafka")
+
+    // Testes
+    testImplementation("org.springframework.boot:spring-boot-starter-kafka-test")
 }
 
 tasks.withType<Test> {
