@@ -5,6 +5,8 @@ spring:
     uri: ${MONGODB_URI:mongodb://localhost:27017/dishdash}
 #       A sintaxe ${VAR:default} usa variável de ambiente se existir,
 #       ou o valor padrão para rodar local. Boa prática desde o início
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 
 server:
   port: 8080

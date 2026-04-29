@@ -6,6 +6,8 @@ spring:
     # Banco separado do order-service!
     # Cada microserviço tem seu próprio banco — isso é Database per Service pattern
     # Se compartilhassem o banco, estariam acoplados no nível de dados
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 
 server:
   port: 8081  # porta diferente do order-service

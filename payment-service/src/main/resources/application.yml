@@ -4,6 +4,8 @@ spring:
   mongodb:
     uri: ${MONGODB_URI:mongodb://localhost:27017/dishdash_payment}
     # Terceiro banco separado — cada serviço é dono dos seus dados
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 
 server:
   port: 8082
