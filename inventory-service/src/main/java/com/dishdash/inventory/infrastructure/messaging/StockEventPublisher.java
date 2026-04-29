@@ -3,7 +3,6 @@ package com.dishdash.inventory.infrastructure.messaging;
 import com.dishdash.inventory.domain.event.StockReservedEvent;
 import com.dishdash.inventory.domain.event.StockReservedEvent.ReservedItemEvent;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
